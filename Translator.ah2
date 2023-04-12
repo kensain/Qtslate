@@ -1,6 +1,8 @@
-#Include <Info>                 ; https://github.com/Axlefublr/lib-v2/blob/main/Tools/Info.ahk
-#Include <JXON_ahk2\_JXON>      ; https://github.com/TheArkive/JXON_ahk2
+#Include <Info>                     ; https://github.com/Axlefublr/lib-v2/blob/main/Tools/Info.ahk
+#Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
+#Include <lib-v2\Utils\ClipSend>    ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
+#SingleInstance Force
 class Translator {
 
     static SourceLanguage := "auto"
@@ -60,13 +62,36 @@ class Translator {
             MsgBox("Request failed with status code " response.Status)
     }
 
-    static CopyResult() {
-        if this.TranslationText = "" {
-            Info("No translations to display.")
-            return
-        }
+    static CopyBox(Text) {
+        translation := this.Translate(Text)
         g := Gui()
-        g.AddEdit("Disabled vTranslationText", this.TranslationText)
+        g.Opt("ToolWindow")
+        g.AddEdit("ReadOnly vTranslationText w300", translation)
+        button := g.AddButton("vCopy Default", "Copy")
+        button.OnEvent("Click", CopyTranslation)
+        g.OnEvent("Escape", CloseWindow)
+        g.Show()
+
+        CopyTranslation(*) {
+            A_Clipboard := g.Submit().TranslationText
+            g.Destroy()
+        }
+
+        CloseWindow(*) {
+            g.Destroy()
+        }
+    }
+    
+    static InPlace() {
+        A_Clipboard := ""
+        Send("^c")
+        ClipWait(1)
+        translation := this.Translate(A_Clipboard)
+        ClipSend(translation)
+    }
+
+    static Simple() {
+        MsgBox(this.Translate(A_Clipboard), "Translation")
     }
 }
 
@@ -75,7 +100,11 @@ class Translator {
 #3::Translator.SwitchTarget("ru")
 text := "The mind can go either direction under stress—toward positive or toward negative: on or off. Think of it as a spectrum whose extremes are unconsciousness at the negative end and hyperconsciousness at the positive end. The way the mind will lean under stress is strongly influenced by training."
 ; translated_text := 
-#t::MsgBox(Translator.Translate(text))
+; #t::MsgBox(Translator.Translate(text))
+#y::Translator.Simple()
+#r::Translator.InPlace
+; #t::clipsave()
+
 
 ; #############################
 ; #############################
