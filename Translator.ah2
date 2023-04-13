@@ -7,8 +7,6 @@ class Translator {
 
     static SourceLanguage := "auto"
     static TargetLanguage := "ru"
-    static TranslationText := ""
-    static TranslationMode := "Simple"
 
     static SwitchSource(LanguageCode) {
         this.SourceLanguage := LanguageCode
@@ -20,12 +18,7 @@ class Translator {
         Info("Target language is set to " LanguageCode)
     }
 
-    static SwitchMode() {
-        modes := ["Simple", "In Place", "Copybox"]
-        currentModeIndex := 0
-    }
-
-    static Translate(Text) {
+    static Translate(Text, SourceLanguage := this.SourceLanguage, TargetLanguage := this.TargetLanguage) {
         url := "https://translate.google.com/translate_a/single"
     
         _headers := Map(
@@ -35,8 +28,8 @@ class Translator {
         )
         _params := Map(
             "client", "gtx",
-            "sl", this.SourceLanguage,
-            "tl", this.TargetLanguage,
+            "sl", SourceLanguage,
+            "tl", TargetLanguage,
             "dt", "t",
             "q", Text
         )
@@ -51,6 +44,7 @@ class Translator {
             else
                 params .= key "=" value
         }
+
         response := ComObject("WinHttp.WinHttpRequest.5.1")
         response.Open("GET", url . "?" . headers . params, false)
         response.Send()
@@ -62,54 +56,14 @@ class Translator {
             output := ""
             for k, v in TranslationObject[1]
                 output .= TranslationObject[1][k][1]
-            this.TranslationText := output
             return output
         } else 
             MsgBox("Request failed with status code " response.Status)
     }
 
-    static CopyBox(Text) {
-        translation := this.Translate(Text)
-        g := Gui()
-        g.Opt("ToolWindow")
-        g.AddEdit("ReadOnly vTranslationText w300", translation)
-        button := g.AddButton("vCopy Default", "Copy")
-        button.OnEvent("Click", CopyTranslation)
-        g.OnEvent("Escape", CloseWindow)
-        g.Show()
-
-        CopyTranslation(*) {
-            A_Clipboard := g.Submit().TranslationText
-            g.Destroy()
-        }
-
-        CloseWindow(*) {
-            g.Destroy()
-        }
-    }
-    
-    static InPlace() {
-        A_Clipboard := ""
-        Send("^c")
-        ClipWait(1)
-        translation := this.Translate(A_Clipboard)
-        ClipSend(translation)
-    }
-
-    static Clipboard() {
-        MsgBox(this.Translate(A_Clipboard), "Translation")
-    }
 }
 
-#1::Translator.SwitchTarget("de")
-#2::Translator.SwitchTarget("it")
-#3::Translator.SwitchTarget("ru")
-text := "The mind can go either direction under stress—toward positive or toward negative: on or off. Think of it as a spectrum whose extremes are unconsciousness at the negative end and hyperconsciousness at the positive end. The way the mind will lean under stress is strongly influenced by training."
-; translated_text := 
-; #t::MsgBox(Translator.Translate(text))
-#y::Translator.Clipboard()
-#r::Translator.InPlace
-; #t::clipsave()
+; text := "The mind can go either direction under stress—toward positive or toward negative: on or off. Think of it as a spectrum whose extremes are unconsciousness at the negative end and hyperconsciousness at the positive end. The way the mind will lean under stress is strongly influenced by training."
 
 
 ; #############################
