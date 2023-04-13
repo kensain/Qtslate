@@ -1,6 +1,6 @@
 #Include <Info>                     ; https://github.com/Axlefublr/lib-v2/blob/main/Tools/Info.ahk
 #Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
-#Include <lib-v2\Utils\ClipSend>    ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
+#Include <lib-v2\Utils\ClipSend>   ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
 #SingleInstance Force
 class Translator {
@@ -8,15 +8,21 @@ class Translator {
     static SourceLanguage := "auto"
     static TargetLanguage := "ru"
     static TranslationText := ""
+    static TranslationMode := "Simple"
 
     static SwitchSource(LanguageCode) {
         this.SourceLanguage := LanguageCode
-        Info("Source language is set to " LanguageCode, 2000)
+        Info("Source language is set to " LanguageCode)
     }
 
     static SwitchTarget(LanguageCode) {
         this.TargetLanguage := LanguageCode
-        Info("Target language is set to " LanguageCode, 2000)
+        Info("Target language is set to " LanguageCode)
+    }
+
+    static SwitchMode() {
+        modes := ["Simple", "In Place", "Copybox"]
+        currentModeIndex := 0
     }
 
     static Translate(Text) {
@@ -90,7 +96,7 @@ class Translator {
         ClipSend(translation)
     }
 
-    static Simple() {
+    static Clipboard() {
         MsgBox(this.Translate(A_Clipboard), "Translation")
     }
 }
@@ -101,7 +107,7 @@ class Translator {
 text := "The mind can go either direction under stress—toward positive or toward negative: on or off. Think of it as a spectrum whose extremes are unconsciousness at the negative end and hyperconsciousness at the positive end. The way the mind will lean under stress is strongly influenced by training."
 ; translated_text := 
 ; #t::MsgBox(Translator.Translate(text))
-#y::Translator.Simple()
+#y::Translator.Clipboard()
 #r::Translator.InPlace
 ; #t::clipsave()
 
