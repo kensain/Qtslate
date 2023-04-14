@@ -2,23 +2,12 @@
 #Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
 #Include <lib-v2\Utils\ClipSend>   ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
-#SingleInstance Force
 class Translator {
 
     static SourceLanguage := "auto"
     static TargetLanguage := "ru"
 
-    static SwitchSource(LanguageCode) {
-        this.SourceLanguage := LanguageCode
-        Info("Source language is set to " LanguageCode)
-    }
-
-    static SwitchTarget(LanguageCode) {
-        this.TargetLanguage := LanguageCode
-        Info("Target language is set to " LanguageCode)
-    }
-
-    static Translate(Text, SourceLanguage := this.SourceLanguage, TargetLanguage := this.TargetLanguage) {
+    static Translate(Text, TargetLanguage := this.TargetLanguage, SourceLanguage := this.SourceLanguage) {
         url := "https://translate.google.com/translate_a/single"
     
         _headers := Map(
