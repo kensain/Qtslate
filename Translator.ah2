@@ -1,12 +1,17 @@
-#Include <Info>                     ; https://github.com/Axlefublr/lib-v2/blob/main/Tools/Info.ahk
 #Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
-#Include <lib-v2\Utils\ClipSend>   ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
 class Translator {
 
     static SourceLanguage := "auto"
     static TargetLanguage := "ru"
 
+    /**
+     * Translates text.
+     * @param {string} Text The source text for translation.
+     * @param {string} TargetLanguage The code for a language you would like to translate to. For example: "de", "en", "es", "it" and so on.
+     * @param {string} SourceLanguage The code for a language you would like to translate from. Defaulted to "auto" (see SourceLanguage property). For example: "de", "en", "es", "it" and so on.
+     * @returns {string} Output translation text.
+     */
     static Translate(Text, TargetLanguage := this.TargetLanguage, SourceLanguage := this.SourceLanguage) {
         url := "https://translate.google.com/translate_a/single"
     
@@ -51,9 +56,6 @@ class Translator {
     }
 
 }
-
-; text := "The mind can go either direction under stress—toward positive or toward negative: on or off. Think of it as a spectrum whose extremes are unconsciousness at the negative end and hyperconsciousness at the positive end. The way the mind will lean under stress is strongly influenced by training."
-
 
 ; #############################
 ; #############################

@@ -1,5 +1,5 @@
 #Include Translator.ah2
-#SingleInstance Force
+#Include <lib-v2\Utils\ClipSend>   ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
 class Qtslate extends Translator {
 
@@ -10,15 +10,32 @@ class Qtslate extends Translator {
     static SourceLanguageIndex := 1
     static TargetLanguageIndex := 3
 
-    static SwitchMode() {
-        if this.CurrentModeIndex = this.TranslationMode.Length
-            this.CurrentModeIndex := 1
-        else
-            this.CurrentModeIndex++
-        Info("'" this.TranslationMode[this.CurrentModeIndex] "' mode is activated.")
+    /**
+     * Method for switching Qtslate between translations methods - 'From Clipboard', 'In place' and 'User Input'.
+     * @param {number} backwards Used when you need to cycle backwards, for example with mouse. Purely optional, as there is only 3 methods available as of 04.2023.
+     */
+    static SwitchMode(backwards := false) {
+        if backwards = true {
+            if this.SourceLanguageIndex = 1
+                this.SourceLanguageIndex := this.Languages.Length
+            else
+                this.SourceLanguageIndex--
+        }
+        else {
+            if this.CurrentModeIndex = this.TranslationMode.Length
+                this.CurrentModeIndex := 1
+            else
+                this.CurrentModeIndex++
+        }
+        ToolTip("'" this.TranslationMode[this.CurrentModeIndex] "' mode is activated.")
+        SetTimer () => ToolTip(), -2000
     }
 
-    static SwitchTargetLanguage(backwards := false) {
+    /**
+     * Method for cycling target languages. Based on a counter to cycle through the array of languages. Skips the index #1 which is 'auto' because you must  specify the target language. 
+     * @param {Boolean} backwards Used when you need to cycle backwards, for example with mouse.
+     */
+    static CycleTargetLanguage(backwards := false) {
         if backwards = true {
             if this.TargetLanguageIndex = 2
                 this.TargetLanguageIndex := this.Languages.Length
@@ -31,10 +48,15 @@ class Qtslate extends Translator {
             else
                 this.TargetLanguageIndex++
         }
-        Info("Target language = " StrUpper(this.Languages[this.TargetLanguageIndex]))
+        ToolTip("Target language = " StrUpper(this.Languages[this.TargetLanguageIndex]))
+        SetTimer () => ToolTip(), -1500
     }
 
-    static SwitchSourceLanguage(backwards := false) {
+    /**
+     * Method for cycling languages. Based on a counter to cycle through the array of languages.
+     * @param {Boolean} backwards Used when you need to cycle backwards, for example with mouse.
+     */
+    static CycleSourceLanguage(backwards := false) {
         if backwards = true {
             if this.SourceLanguageIndex = 1
                 this.SourceLanguageIndex := this.Languages.Length
@@ -47,7 +69,8 @@ class Qtslate extends Translator {
             else
                 this.SourceLanguageIndex++
         }
-        Info("Source language = " StrUpper(this.Languages[this.SourceLanguageIndex]))
+        ToolTip("Source language = " StrUpper(this.Languages[this.SourceLanguageIndex]))
+        SetTimer () => ToolTip(), -1500
     }
 
     /**
@@ -73,7 +96,8 @@ class Qtslate extends Translator {
         Settings := "Mode: " this.TranslationMode[this.CurrentModeIndex]
         . "`nSource: " this.Languages[this.SourceLanguageIndex]
         . "`nTarget: " this.Languages[this.TargetLanguageIndex]
-        Info(Settings)
+        ToolTip(Settings)
+        SetTimer () => ToolTip(), -1500
     }
 
     /**
@@ -98,7 +122,7 @@ class Qtslate extends Translator {
             g.Destroy()
         }
     }
-    
+
     /**
      * Used to translate text within a text editor. For example, in MS Word you can select a word or a whole paragraph and call this method. The selection will be copied, translated and pasted in place.
      */
@@ -132,7 +156,3 @@ class Qtslate extends Translator {
     }
 
 }
-
-text := "The mind can go either direction under stress—toward positive or toward negative: on or off. Think of it as a spectrum whose extremes are unconsciousness at the negative end and hyperconsciousness at the positive end. The way the mind will lean under stress is strongly influenced by training."
-
-; #t::QTslate.UserInput()
