@@ -32,7 +32,7 @@ class Qtslate extends Translator {
     }
 
     /**
-     * Method for cycling target languages. Based on a counter to cycle through the array of languages. Skips the index #1 which is 'auto' because you must  specify the target language. 
+     * Method for cycling target languages. Based on a counter to cycle through the array of languages. Skips the index #1 which is 'auto' because you must  specify the target language.
      * @param {Boolean} backwards Used when you need to cycle backwards, for example with mouse.
      */
     static CycleTargetLanguage(backwards := false) {
