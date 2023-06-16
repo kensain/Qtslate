@@ -1,4 +1,4 @@
-#Include Translator.ah2
+﻿#Include Translator.ah2
 #Include <lib-v2\Utils\ClipSend>   ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
 class Qtslate extends Translator {
@@ -155,4 +155,9 @@ class Qtslate extends Translator {
         this.Display(translation)
     }
 
+    static Controls() {
+        
+        controls := Gui()
+        g.Add
+    }
 }

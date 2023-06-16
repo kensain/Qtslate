@@ -1,4 +1,4 @@
-#Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
+﻿#Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
 
 class Translator {
 
@@ -18,7 +18,8 @@ class Translator {
         _headers := Map(
             "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
             "Referer", "https://translate.google.com/",
-            "Accept", "application/json"
+            "Accept", "application/json",
+            "charset", "utf-8"
         )
         _params := Map(
             "client", "gtx",
@@ -41,6 +42,7 @@ class Translator {
 
         response := ComObject("WinHttp.WinHttpRequest.5.1")
         response.Open("GET", url . "?" . headers . params, false)
+        A_Clipboard := url . "?" . headers . params
         response.Send()
         if response.Status = 200 {
             Translation := response.ResponseText
