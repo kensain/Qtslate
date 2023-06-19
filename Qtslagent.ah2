@@ -7,9 +7,10 @@ Persistent
 #Include QTslate.ah2
 
 #t::QTslate.Activate()
-#MButton::QTslate.ShowCurrentSettings()
-#+t::QTslate.SwitchMode()
-#+WheelUp::QTslate.CycleSourceLanguage(true)
-#+WheelDown::QTslate.CycleSourceLanguage()
-#WheelUp::QTslate.CycleTargetLanguage(true)
-#WheelDown::QTslate.CycleTargetLanguage()
+#+t::Qtslate.Controls()
+; #MButton::QTslate.ShowCurrentSettings()
+; #+t::QTslate.SwitchMode()
+; #+WheelUp::QTslate.CycleSourceLanguage(true)
+; #+WheelDown::QTslate.CycleSourceLanguage()
+; #WheelUp::QTslate.CycleTargetLanguage(true)
+; #WheelDown::QTslate.CycleTargetLanguage()

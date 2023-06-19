@@ -155,9 +155,36 @@ class Qtslate extends Translator {
         this.Display(translation)
     }
 
+    /**
+     * GUI for selecting mode, source and target languages.
+     */
     static Controls() {
         
         controls := Gui()
-        g.Add
+        controls.Opt("AlwaysOnTop ToolWindow")
+        controls.Title := "QTslate"
+        controls.AddText(, "Mode")
+        controls.AddListBox("vMode r4 Choose2 AltSubmit", this.TranslationMode)
+        controls.AddText("ym", "Source language")
+        controls.AddListBox("r4 vSource Choose2 AltSubmit", this.Languages)
+        Selector := controls.AddButton("vSelect Default w120", "Select")
+        Selector.OnEvent("Click", Update)
+        controls.AddText("ym", "Target language")
+        controls.AddListBox("r4 vTarget Choose3 AltSubmit", this.Languages)
+        controls.OnEvent("Escape", (*) => close_gui())
+        controls.OnEvent("Close", (*) => close_gui())
+        controls.Show()
+
+        Update(*) {
+            this.CurrentModeIndex := controls.Submit().Mode
+            this.SourceLanguageIndex := controls.Submit().Source
+            this.TargetLanguageIndex := controls.Submit().Target
+        }
+
+        close_gui() {
+            controls.Destroy()
+            Exit()
+        }
+
     }
 }
