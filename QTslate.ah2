@@ -1,5 +1,5 @@
 ﻿#Include Translator.ah2
-#Include <lib-v2\Utils\ClipSend>   ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
+; #Include C:\Users\u45061\Documents\AutoHotkey\Lib\ClipSend.ah2    ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
 class Qtslate extends Translator {
 
@@ -158,7 +158,7 @@ class Qtslate extends Translator {
     /**
      * GUI for selecting mode, source and target languages.
      */
-    static Controls() {
+    static Controls(*) {
         
         controls := Gui()
         controls.Opt("AlwaysOnTop ToolWindow")
