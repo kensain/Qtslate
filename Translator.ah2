@@ -1,4 +1,5 @@
 ﻿#Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
+#Include <AHKv2_Scripts\URI>
 
 class Translator {
 
@@ -26,7 +27,7 @@ class Translator {
             "sl", SourceLanguage,
             "tl", TargetLanguage,
             "dt", "t",
-            "q", Text
+            "q", UriEncode(Text)
         )
 
         headers := ""
@@ -42,7 +43,7 @@ class Translator {
 
         response := ComObject("WinHttp.WinHttpRequest.5.1")
         response.Open("GET", url . "?" . headers . params, false)
-        A_Clipboard := url . "?" . headers . params
+        ; A_Clipboard := url . "?" . headers . params
         response.Send()
         if response.Status = 200 {
             Translation := response.ResponseText
@@ -56,7 +57,6 @@ class Translator {
         } else 
             MsgBox("Request failed with status code " response.Status)
     }
-
 }
 
 ; #############################

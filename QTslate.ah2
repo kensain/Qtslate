@@ -1,4 +1,5 @@
 ﻿#Include Translator.ah2
+#Include <AHKv2_Scripts\ClipSend>
 ; #Include C:\Users\u45061\Documents\AutoHotkey\Lib\ClipSend.ah2    ; https://github.com/Axlefublr/lib-v2/blob/main/Utils/ClipSend.ahk
 
 class Qtslate extends Translator {
