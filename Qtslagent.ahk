@@ -4,7 +4,7 @@ Persistent
 #x::ExitApp ; Win+X to terminate script
 ^!r::Reload ; Ctrl+Alt+R to reload the script
 
-#Include QTslate.ah2
+#Include QTslate.ahk
 
 #t::QTslate.Activate()
 #+t::Qtslate.Controls()

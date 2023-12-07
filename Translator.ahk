@@ -1,5 +1,4 @@
 ﻿#Include <JXON_ahk2\_JXON>          ; https://github.com/TheArkive/JXON_ahk2
-#Include <AHKv2_Scripts\URI>
 
 class Translator {
 
@@ -27,7 +26,7 @@ class Translator {
             "sl", SourceLanguage,
             "tl", TargetLanguage,
             "dt", "t",
-            "q", UriEncode(Text)
+            "q", this.UriEncode(Text)
         )
 
         headers := ""
@@ -56,6 +55,18 @@ class Translator {
             return output
         } else 
             MsgBox("Request failed with status code " response.Status)
+    }
+
+    static UriEncode(Uri, RE := "[0-9A-Za-z]") {
+        Var := Buffer(StrPut(Uri, "UTF-8"), 0)
+        StrPut(Uri, Var, "UTF-8")
+        While Code := NumGet(Var, A_Index - 1, "UChar") {
+            if RegExMatch(Chr(Code), RE, &match)
+                Res .= match[]
+            else
+                Res .= Format("%{:02X}", Code)
+        }
+        return Res
     }
 }
 
